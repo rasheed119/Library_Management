@@ -1,35 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./Components/Dashboard";
-import AddStudents from "./Components/AddStudents";
-import EditStudents from "./Components/EditStudents";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import AddBooks from "./Components/AddBooks";
+import EditBooks from "./Components/EditBooks";
 
 function App() {
-  const [student, setstudent] = useState("");
-  useEffect(() => {
-    const getdata = async () => {
-      const student_data = await axios.get(
-        "https://64e0a57850713530432c87de.mockapi.io/users"
-      );
-      setstudent(student_data.data);
-    };
-    getdata();
-  }, []);
   return (
     <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/addbooks" element={<AddBooks />} />
       <Route
-        path="/"
-        element={<Dashboard student={student} setstudent={setstudent} />}
-      />
-      <Route
-        path="/addstudents"
-        element={<AddStudents student={student} setstudent={setstudent} />}
-      />
-      <Route
-        path="/editstudents/:id"
-        element={<EditStudents student={student} setstudent={setstudent} />}
+        path="/editbooks/:book_name/:book_author/:book_img_url/:book_id"
+        element={<EditBooks />}
       />
     </Routes>
   );

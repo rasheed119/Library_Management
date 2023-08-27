@@ -8,53 +8,29 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
 
-const add_student_validation_schema = yup.object({
-  name: yup
-    .string()
-    .matches(
-      /^([aA-zZ]|[ ])+$/,
-      "Name should not Contain numbers or special characters"
-    )
-    .required("Name is Required"),
-  batch: yup
-    .string()
-    .matches(/^([aA-zZ]|[0-9])+$/, "Invalid Batch")
-    .required("Batch is Required")
-    .max(5, "Batch Should Contain 5 Characters"),
-  qualification: yup
-    .string()
-    .matches(
-      /^([aA-zZ]|[.])+$/,
-      "Qualification should not Contain numbers or special characters"
-    )
-    .required("Qualification is required"),
-  gender: yup.string().required("Gender is Required"),
+const add_book_validation_schema = yup.object({
+  book_name: yup.string().required("Book Name is Required"),
+  book_author: yup.string().required("Author Name is Required"),
+  book_img_url: yup.string().required("Book Image Url is required"),
 });
 
-function AddStudents({ student, setstudent }) {
+function AddBooks() {
   const navigate = useNavigate();
   const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
     useFormik({
       initialValues: {
-        name: "",
-        qualification: "",
-        batch: "",
-        gender: "",
+        book_name: "",
+        book_author: "",
+        book_img_url: "",
       },
-      validationSchema: add_student_validation_schema,
-      onSubmit: async (student_data) => {
+      validationSchema: add_book_validation_schema,
+      onSubmit: async (book_data) => {
         await axios.post(
-          `https://64e0a57850713530432c87de.mockapi.io/users`,
-          student_data
+          `https://64eae537e51e1e82c576d438.mockapi.io/Library/library`,
+          book_data
         );
-        setstudent([...student]);
         navigate("/");
       },
     });
@@ -74,41 +50,41 @@ function AddStudents({ student, setstudent }) {
                   alignItems: "center",
                 }}
               >
-                {touched.name && errors.name ? (
+                {touched.book_name && errors.book_name ? (
                   <TextField
                     required
                     error
                     id="outlined-required"
-                    label="Name"
-                    value={values.name}
+                    label="Book Name"
+                    value={values.book_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name="name"
-                    helperText={errors.name}
+                    name="book_name"
+                    helperText={errors.book_name}
                     sx={{ width: 300, mb: 3 }}
                   />
                 ) : (
                   <TextField
                     required
                     id="outlined-required"
-                    label="Name"
-                    value={values.name}
+                    label="Book Name"
+                    value={values.book_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name="name"
+                    name="book_name"
                     sx={{ width: 300, mb: 3 }}
                   />
                 )}
-                {touched.batch && errors.batch ? (
+                {touched.book_author && errors.book_author ? (
                   <TextField
                     required
                     error
                     id="outlined-required"
-                    label="Batch"
-                    value={values.batch}
+                    label="Book Author"
+                    value={values.book_author}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name="batch"
+                    name="book_author"
                     helperText={errors.batch}
                     sx={{ width: 300, mb: 3 }}
                   />
@@ -116,61 +92,39 @@ function AddStudents({ student, setstudent }) {
                   <TextField
                     required
                     id="outlined-required"
-                    label="Batch"
-                    value={values.batch}
+                    label="Book Author"
+                    value={values.book_author}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name="batch"
+                    name="book_author"
                     sx={{ width: 300, mb: 3 }}
                   />
                 )}
-                {touched.qualification && errors.qualification ? (
+                {touched.book_img_url && errors.book_img_url ? (
                   <TextField
                     required
                     error
                     id="outlined-required"
-                    label="Qualification"
-                    value={values.qualification}
+                    label="Book Url"
+                    value={values.book_img_url}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name="qualification"
-                    helperText={errors.qualification}
+                    name="book_img_url"
+                    helperText={errors.book_img_url}
                     sx={{ width: 300, mb: 3 }}
                   />
                 ) : (
                   <TextField
                     required
                     id="outlined-required"
-                    label="Qualification"
-                    value={values.qualification}
+                    label="Book Url"
+                    value={values.book_img_url}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name="qualification"
+                    name="book_img_url"
                     sx={{ width: 300, mb: 3 }}
                   />
                 )}
-                <FormControl sx={{ mt: 3 }}>
-                  <FormLabel id="demo-controlled-radio-buttons-group">
-                    Gender
-                  </FormLabel>
-                  <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="gender"
-                    value={values.gender}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                  </RadioGroup>
-                </FormControl>
                 <Button
                   variant="contained"
                   color="success"
@@ -188,4 +142,4 @@ function AddStudents({ student, setstudent }) {
   );
 }
 
-export default AddStudents;
+export default AddBooks;

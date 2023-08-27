@@ -13,6 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 
 function Dashboard() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -23,32 +24,55 @@ function Dashboard() {
   useEffect(() => {
     const getdata = async () => {
       const student_data = await axios.get(
-        "https://64e0a57850713530432c87de.mockapi.io/users"
+        "https://64eae537e51e1e82c576d438.mockapi.io/Library/library"
       );
       setdata(student_data.data);
     };
     getdata();
   }, []);
-  const deleteStudent = async (student_id, student_name) => {
+  const deletebook = async (book_id, book_name) => {
     await axios.delete(
-      `https://64e0a57850713530432c87de.mockapi.io/users/${student_id}`
+      `https://64eae537e51e1e82c576d438.mockapi.io/Library/library/${book_id}`
     );
-    const remaining_student = data.filter(
-      (student_obj) => student_obj._id !== student_id
-    );
-    setdata(remaining_student);
+    const remaining_book = data.filter((book_obj) => book_obj.id !== book_id);
+    setdata(remaining_book);
     setSnackbarSeverity("error");
-    setSnackbarMessage(`${student_name} data was deleted Successfully`);
+    setSnackbarMessage(`${book_name} data was deleted Successfully`);
     setSnackbarOpen(true);
   };
   function handleCloseSnackbar() {
     setSnackbarOpen(false);
   }
+  const editbook = (book_name, book_author, book_img_url, book_id) => {
+    const encodedBookName = encodeURIComponent(book_name);
+    const encodedBookAuthor = encodeURIComponent(book_author);
+    const encodedBookImageUrl = encodeURIComponent(book_img_url);
+    const bookId = book_id;
+    navigate(
+      `/editbooks/${encodedBookName}/${encodedBookAuthor}/${encodedBookImageUrl}/${bookId}`
+    );
+  };
   return (
     <Base>
       <Box sx={{ marginTop: 15 }}>
         <Container fixed>
           <Box sx={{ flexGrow: 1 }}>
+            <Grid container xs={12} sx={{ mt: 2, mb: 2 }}>
+              <Grid item xs={4} />
+              <Grid item xs={4} />
+              <Grid item xs={4}>
+                <Paper elevation={3}>
+                  <Typography
+                    variant="h5"
+                    gutterBottom
+                    textAlign="center"
+                    sx={{ pt: 2, pb: 2 }}
+                  >
+                    Total Books : {data && data.length}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
             <Grid
               container
               spacing={{ xs: 2, md: 3 }}
@@ -71,13 +95,21 @@ function Dashboard() {
                   >
                     <Card sx={{ minWidth: 290 }}>
                       <CardContent>
+                        <img
+                          src={obj.book_img_url}
+                          style={{ width: 250, height: 320 }}
+                          alt={obj.book_name}
+                        />
                         <Typography
                           variant="h5"
                           sx={{ mt: 2, mb: 2 }}
                           textAlign="center"
                           component="div"
                         >
-                          Name : {obj.name}
+                          {obj.book_name}
+                        </Typography>
+                        <Typography paragraph textAlign="center">
+                          by
                         </Typography>
                         <Typography
                           variant="h5"
@@ -85,23 +117,7 @@ function Dashboard() {
                           textAlign="center"
                           component="div"
                         >
-                          Qualification : {obj.qualification}
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          sx={{ mt: 2, mb: 2 }}
-                          textAlign="center"
-                          component="div"
-                        >
-                          Gender : {obj.gender}
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          sx={{ mt: 2, mb: 1 }}
-                          textAlign="center"
-                          component="div"
-                        >
-                          Batch : {obj.batch}
+                          {obj.book_author}
                         </Typography>
                       </CardContent>
                       <CardActions
@@ -113,16 +129,23 @@ function Dashboard() {
                       >
                         <Button
                           size="small"
-                          onClick={() => navigate(`/editstudents/${obj._id}`)}
+                          onClick={() =>
+                            editbook(
+                              obj.book_name,
+                              obj.book_author,
+                              obj.book_img_url,
+                              obj.id
+                            )
+                          }
                           variant="outlined"
                         >
-                          Edit Student
+                          Edit Book
                         </Button>
                         <Button
                           size="small"
                           color="error"
                           variant="outlined"
-                          onClick={() => deleteStudent(obj._id, obj.name)}
+                          onClick={() => deletebook(obj.id, obj.book_name)}
                         >
                           Delete
                         </Button>

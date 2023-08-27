@@ -45,7 +45,7 @@ function Base({ children }) {
                 textDecoration: "none",
               }}
             >
-              Student Database
+              Library Management
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -77,8 +77,8 @@ function Base({ children }) {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                <MenuItem onClick={() => navigate("/addstudents")}>
-                  <Typography textAlign="center">Add Students</Typography>
+                <MenuItem onClick={() => navigate("/addbooks")}>
+                  <Typography textAlign="center">Add Books</Typography>
                 </MenuItem>
 
                 <MenuItem onClick={() => navigate("/")}>
@@ -106,10 +106,10 @@ function Base({ children }) {
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               <Button
-                onClick={() => navigate("/addstudents")}
+                onClick={() => navigate("/addbooks")}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                Add Students
+                Add Books
               </Button>
 
               <Button
