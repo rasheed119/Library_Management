@@ -85,7 +85,7 @@ function AddBooks() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     name="book_author"
-                    helperText={errors.batch}
+                    helperText={errors.book_author}
                     sx={{ width: 300, mb: 3 }}
                   />
                 ) : (
