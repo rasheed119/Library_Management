@@ -14,6 +14,8 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
+import "atropos/css";
+import Atropos from "atropos/react";
 
 function Dashboard() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -95,11 +97,22 @@ function Dashboard() {
                   >
                     <Card sx={{ minWidth: 290 }}>
                       <CardContent>
-                        <img
-                          src={obj.book_img_url}
-                          style={{ width: 250, height: 320 }}
-                          alt={obj.book_name}
-                        />
+                        <Atropos className="my-atropos">
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <img
+                              src={obj.book_img_url}
+                              style={{ width: 250, height: 320 }}
+                              alt={obj.book_name}
+                            />
+                          </div>
+                        </Atropos>
+
                         <Typography
                           variant="h5"
                           sx={{ mt: 2, mb: 2 }}
